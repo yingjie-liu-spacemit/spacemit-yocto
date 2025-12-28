@@ -1,4 +1,4 @@
-中文 README: [README_zh.md](README_zh.md)
+[中文README](./README_zh.md)
 
 # SpacemiT K1 Yocto SDK
 
@@ -10,13 +10,13 @@ This project provides a set of Yocto layers and build scripts (initialized via `
 
 Minimal Linux, suitable for quick boot, serial debugging, and basic network testing.
 
-https://github.com/user-attachments/assets/cf9a4058-5692-448b-b522-c6c7db1c3306
+![minimal](https://github.com/user-attachments/assets/cf9a4058-5692-448b-b522-c6c7db1c3306)
 
 ### weston Image
 
 Graphical environment with Weston (Wayland) compositor, supporting simple graphical applications on K1 (GPU acceleration available).
 
-https://github.com/user-attachments/assets/ea4555da-246d-40fd-a94d-cfec4cb29faf
+![weston](https://github.com/user-attachments/assets/ea4555da-246d-40fd-a94d-cfec4cb29faf)
 
 ## Firmware Download and Flashing
 

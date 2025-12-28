@@ -1,4 +1,4 @@
-English README: [README.md](README.md)
+[English README](./README.md)
 
 # 进迭时空K1 Yocto SDK
 
@@ -10,13 +10,13 @@ English README: [README.md](README.md)
 
 极简 Linux，适用于快速启动、串口调试与基本网络测试。
 
-https://github.com/user-attachments/assets/cf9a4058-5692-448b-b522-c6c7db1c3306
+![minimal](https://github.com/user-attachments/assets/cf9a4058-5692-448b-b522-c6c7db1c3306)
 
 ### weston镜像
 
 带 Weston（Wayland）合成器的图形环境，支持在 K1 上运行简单图形应用（可使用K1上的GPU进行加速）。
 
-https://github.com/user-attachments/assets/ea4555da-246d-40fd-a94d-cfec4cb29faf
+![weston](https://github.com/user-attachments/assets/ea4555da-246d-40fd-a94d-cfec4cb29faf)
 
 ## 固件下载与刷机
 
