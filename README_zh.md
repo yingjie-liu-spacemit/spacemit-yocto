@@ -1,3 +1,5 @@
+English README: [README.md](README.md)
+
 # 进迭时空K1 Yocto SDK
 
 本项目为 SpacemiT K1 平台提供一套 Yocto 层与构建脚本（通过 `meta-k1/setup.sh` 初始化），用于生成可刷写到 SDCard 的镜像。
@@ -8,20 +10,19 @@
 
 极简 Linux，适用于快速启动、串口调试与基本网络测试。
 
-![](minimal_terminal.png)
+https://github.com/user-attachments/assets/cf9a4058-5692-448b-b522-c6c7db1c3306
 
 ### weston镜像
 
 带 Weston（Wayland）合成器的图形环境，支持在 K1 上运行简单图形应用（可使用K1上的GPU进行加速）。
 
-![](weston_glmark2.png)
+https://github.com/user-attachments/assets/ea4555da-246d-40fd-a94d-cfec4cb29faf
 
 ## 固件下载与刷机
 
-- **下载（占位）**：
+- **下载**：
 
-  - minimal 镜像：<minimal-firmware-url>
-  - weston 镜像：<weston-firmware-url>
+  - [最新镜像](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/)
 
 - **刷入示例（写入 SD 卡，操作前请确认目标设备）**：
 
@@ -42,8 +43,8 @@
 ### 步骤
 
 ```bash
-git clone 本仓库地址
-cd yocto-spacemit
+git clone https://github.com/yingjie-liu-spacemit/spacemit-yocto.git/'
+cd spacemit-yocto
 git submodule update --init --recursive
 source meta-k1/setup.sh
 bitbake core-image-minimal # 或 bitbake core-image-weston

@@ -1,3 +1,5 @@
+中文 README: [README_zh.md](README_zh.md)
+
 # SpacemiT K1 Yocto SDK
 
 This project provides a set of Yocto layers and build scripts (initialized via `meta-k1/setup.sh`) for the SpacemiT K1 platform, used to generate images that can be flashed to an SD card.
@@ -8,20 +10,19 @@ This project provides a set of Yocto layers and build scripts (initialized via `
 
 Minimal Linux, suitable for quick boot, serial debugging, and basic network testing.
 
-![minimal_terminal](minimal_terminal.png)
+https://github.com/user-attachments/assets/cf9a4058-5692-448b-b522-c6c7db1c3306
 
 ### weston Image
 
 Graphical environment with Weston (Wayland) compositor, supporting simple graphical applications on K1 (GPU acceleration available).
 
-![weston_glmark2](weston_glmark2.png)
+https://github.com/user-attachments/assets/ea4555da-246d-40fd-a94d-cfec4cb29faf
 
 ## Firmware Download and Flashing
 
-- **Download (placeholder)**:
-  - minimal image: <minimal-firmware-url>
-  - weston image: <weston-firmware-url>
-
+- **Download**:
+  - [Latest Images & Releases](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/)
+  
 - **Flashing Example (write to SD card, confirm target device first)**:
   ```bash
   sudo dd if=core-image-minimal.wic of=/dev/sdX bs=4M conv=fsync status=progress
@@ -40,8 +41,8 @@ Graphical environment with Weston (Wayland) compositor, supporting simple graphi
 ### Steps
 
 ```bash
-git clone <repo-url>
-cd yocto-spacemit
+git clone https://github.com/yingjie-liu-spacemit/spacemit-yocto.git
+cd spacemit-yocto
 git submodule update --init --recursive
 source meta-k1/setup.sh
 bitbake core-image-minimal # or bitbake core-image-weston
