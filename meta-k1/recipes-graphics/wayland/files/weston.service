@@ -1,0 +1,19 @@
+[Unit]
+Description=Weston Wayland Compositor
+After=systemd-user-sessions.service udev.service
+
+[Service]
+Type=simple
+RuntimeDirectory=weston
+Environment=XDG_RUNTIME_DIR=/run/weston
+Environment=WESTON_TTY=1
+User=root
+Group=root
+
+ExecStart=/usr/bin/weston --backend=drm-backend.so --seat=seat0
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical.target

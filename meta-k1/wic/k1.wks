@@ -1,0 +1,16 @@
+# K1 SD Card Image WIC Configuration (Precision Label Match)
+# This WIC configuration creates a GPT-partitioned SD card image for K1, with bootinfo injected via k1-image.inc post-processing
+
+bootloader --ptable gpt
+
+part --part-name fsbl --source rawcopy --sourceparams="file=FSBL.bin" --fixed-size 256K --align 128
+
+part --part-name env --source rawcopy --sourceparams="file=u-boot-env-default.bin" --fixed-size 64K --align 384
+
+part --part-name opensbi --source rawcopy --sourceparams="file=fw_dynamic.itb" --fixed-size 384K --align 1024
+
+part --part-name uboot --source rawcopy --sourceparams="file=u-boot.itb" --fixed-size 2M --align 2048
+
+part --part-name bootfs --source rawcopy --sourceparams="file=bootfs.ext4" --fixed-size 256M --align 4096
+
+part --part-name rootfs --source rootfs --fstype=ext4 --label root --align 266240

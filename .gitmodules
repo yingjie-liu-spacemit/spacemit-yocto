@@ -1,0 +1,15 @@
+[submodule "meta-openembedded"]
+	path = meta-openembedded
+	url = https://github.com/openembedded/meta-openembedded.git
+[submodule "meta-riscv"]
+	path = meta-riscv
+	url = https://github.com/YoeDistro/meta-riscv.git
+[submodule "openembedded-core"]
+	path = openembedded-core
+	url = https://github.com/openembedded/openembedded-core.git
+[submodule "meta-yocto"]
+	path = meta-yocto
+	url = https://git.yoctoproject.org/meta-yocto.git
+[submodule "bitbake"]
+	path = bitbake
+	url = https://github.com/openembedded/bitbake.git
