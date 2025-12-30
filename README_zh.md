@@ -43,7 +43,7 @@
 ### 步骤
 
 ```bash
-git clone https://github.com/yingjie-liu-spacemit/spacemit-yocto.git/'
+git clone https://github.com/yingjie-liu-spacemit/spacemit-yocto.git/
 cd spacemit-yocto
 git submodule update --init --recursive
 source meta-k1/setup.sh
