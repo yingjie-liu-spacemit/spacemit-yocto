@@ -18,11 +18,18 @@ This layer is developed against the **master** branch of `openembedded-core` and
 
 | MACHINE | SoC | Supported Boards |
 |---------|-----|-----------------|
-| `k3` | SpacemiT K3 | COM260, COM260 IFX, COM260 Kit v02, Pico-ITX, EVB, EVB2-1, EVB2-2, DEB1, DC Board, Gemini C0/C1, BS01DCMA |
+| `k3` | SpacemiT K3 | COM260, Pico-ITX... |
 
 All board variants are built from a single `MACHINE=k3` target. The corresponding device trees are included in the bootfs automatically (see `conf/machine/k3.conf` for the full DTB list).
 
+## Firmware Download
+
+Pre-built images are available on the [Releases page](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/tag/K3_support_v1.0).
+
 ## Build Environment
+
+- Recommended: Ubuntu 22.04/24.04, WSL2, or equivalent Linux environment.
+- Required tools: `git`, `bash`, `python3`, and Yocto host dependencies (see [Yocto Project host packages](https://docs.yoctoproject.org/ref-manual/system-requirements.html)).
 
 Builds are performed inside a Docker container based on **Ubuntu 24.04 LTS** (x86_64).
 
@@ -37,8 +44,6 @@ sudo apt install gawk wget git git-lfs diffstat unzip texinfo gcc g++ build-esse
   subversion ssh sudo vim p7zip-full netcat-openbsd
 sudo locale-gen en_US.UTF-8
 ```
-
-> These cover the standard [Yocto Project host packages](https://docs.yoctoproject.org/ref-manual/system-requirements.html) (Scarthgap 5.0) plus additional tools needed by K3 BSP recipes (dosfstools, mesa-common-dev, git-lfs, etc.).
 
 ## Quick Start (K3 Platform)
 
@@ -63,26 +68,24 @@ Run the following command to configure your environment:
 
 ### 3. Build Images
 
-Select the target image based on your requirements:
+Both targets produce `.wic` (SD card) and `.ext4` + Titan partition images simultaneously.
 
-| Image | Description |
-|-------|-------------|
-| `core-image-weston` | Graphical desktop with Wayland/Weston compositor |
-| `core-image-minimal` | Console-only, minimal rootfs for headless use |
-
-* **For a Graphical Image (Wayland/Weston):**
-
-```bash
-MACHINE=k3 bitbake core-image-weston
-```
-
-* **For a Console-only Image:**
+**Minimal Linux, suitable for quick boot, serial debugging, and basic network testing:**
 
 ```bash
 MACHINE=k3 bitbake core-image-minimal
 ```
 
-Both targets produce `.wic` (SD card) and `.ext4` + Titan partition images simultaneously.
+![minimal](https://github.com/user-attachments/assets/25c1ffb9-86ae-421d-9168-54a4a11c2da1)
+
+
+**Graphical environment with Weston (Wayland) compositor, supporting simple graphical applications on K3 (GPU acceleration available):**
+
+```bash
+MACHINE=k3 bitbake core-image-weston
+```
+
+![weston](https://github.com/user-attachments/assets/019f4cd9-4d2a-4da3-b9d8-de7a0a51de86)
 
 ### 4. Default Credentials
 
@@ -109,14 +112,14 @@ sudo sync
 
 Titan is SpacemiT's proprietary flashing tool for writing images via USB. The build also generates partition images compatible with Titan (bootfs.ext4, rootfs.ext4, and firmware binaries).
 
-- **Titan download and usage guide**: https://spacemit.com/community/document/info?lang=zh&nodepath=tools/user_guide/flasher_user_guide.md
+- [Download Titan download and usage guide ](https://spacemit.com/community/document/info?lang=zh&nodepath=tools/user_guide/titan_user_guide.md)
 
 ---
 
 ## Dependencies
 
-* URI: [https://github.com/openembedded/openembedded-core](https://github.com/openembedded/openembedded-core)
-* URI: [https://github.com/openembedded/bitbake](https://github.com/openembedded/bitbake)
+* [openembedded-core](https://github.com/openembedded/openembedded-core)
+* [bitbake](https://github.com/openembedded/bitbake)
 
 ## Contributing
 
