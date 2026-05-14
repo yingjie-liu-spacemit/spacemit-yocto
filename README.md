@@ -1,226 +1,127 @@
 # meta-riscv
-RISC-V Architecture Layer for OpenEmbedded/Yocto
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/riscv/meta-riscv/blob/kraj/master/COPYRIGHT)
-[![Build Status](https://travis-ci.org/riscv/meta-riscv.svg?branch=master)](https://travis-ci.org/riscv/meta-riscv)
+RISC-V Architecture Layer for OpenEmbedded/Yocto
 
 ## Description
 
-This is the general hardware-specific BSP overlay for the RISC-V based devices.
+This is the general hardware-specific BSP overlay for RISC-V based devices. The core BSP portion should work with different OpenEmbedded/Yocto distributions and layer stacks.
 
-More information can be found at: <https://riscv.org/> (Official Site)
+**K3 Platform Support:**
+This layer has been extended from [meta-riscv](https://github.com/riscv/meta-riscv) (commit: `41a010a`) to include full support for the **K3 platform**. It supports multiple K3 boards and provides two image output formats:
+- **SD Card (WIC)**: Directly bootable `.wic` image for SD card flashing
+- **Titan**: Partition images for use with the SpacemiT Titan flashing tool
 
-The core BSP part of meta-riscv should work with different
-OpenEmbedded/Yocto distributions and layer stacks, such as:
-
-* Distro-less (only with OE-Core).
-* Yoe Distro.
-* Yocto/Poky.
-
-## Dependencies
-
-This layer depends on:
-
-* URI: https://github.com/openembedded/openembedded-core
-  * branch: master
-  * revision: HEAD
-* URI: https://github.com/openembedded/bitbake
-  * branch: master
-  * revision: HEAD
-
-## Quick Start
-
-**Note: You only need this if you do not have an existing Yocto Project build environment.**
-
-Make sure to [install the `repo` command by Google](https://source.android.com/setup/downloading#installing-repo) first.
-
-### Create workspace
-```text
-mkdir riscv-yocto && cd riscv-yocto
-repo init -u https://github.com/riscv/meta-riscv -b master -m tools/manifests/riscv-yocto.xml
-repo sync
-repo start work --all
-```
-### Update existing workspace
-
-In order to bring all the layers up to date with upstream
-
-```text
-cd riscv-yocto
-repo sync
-repo rebase
-```
-
-### Setup Build Environment
-```text
-. layers/meta-riscv/tools/envsetup.sh
-```
-
-Optionally override the build directory:
-
-```text
-BUILD_DIR=<build-riscv> . ./layers/meta-riscv/tools/envsetup.sh
-```
-
-### Kas Support
-
-Kas build is supported, you can run the following commands:
-
-```text
-git clone https://github.com/riscv/meta-riscv.git -b master
-cd meta-riscv
-```
-
-* For basic `qemuriscv64` build run:
-
-```text
-kas build kas/base-riscv.yml
-```
-
-**base-riscv.yml** will build `core-image-minimal`, you can then boot it with:
-
-```text
-runqemu core-image-minimal nographic
-```
-
-**NOTE** `nographic` is needed for this image, because it has no graphical support for graphical Qemu run.
-
-* For `nezha` build:
-
-```text
-kas build kas/nezha.yml
-```
-
-* For `beaglev` build:
-
-```text
-kas build kas/beaglev.yml
-```
-
-* For more machines check `kas` folder.
-
-
-## Custom Project
-
-If you have your own layer that depends on this layer, you can create a kas `yml` file in your layer with the following content (`nezha` build as an example):
-
-```yml
-header:
-  version: 20
-  includes:
-    - repo: meta-riscv
-      file: kas/nezha.yml
-
-repos:
-  meta-riscv:
-    url: https://github.com/riscv/meta-riscv.git
-    path: layers/meta-riscv
-    branch: scarthgap
-
-target: custom-image # Or nezha default image: riscv-nezha-image
-```
-
-For more details on `nezha`, `beaglev` and other boards steps check `doc` folder.
+**Yocto Compatibility:**
+This layer is developed against the **master** branch of `openembedded-core` and `bitbake` (post-Scarthgap 5.0, towards Styhead 5.1). It has not been tested against stable release branches.
 
 ## Available Machines
 
-The different machines you can build for are:
+| MACHINE | SoC | Supported Boards |
+|---------|-----|-----------------|
+| `k3` | SpacemiT K3 | COM260, COM260 IFX, COM260 Kit v02, Pico-ITX, EVB, EVB2-1, EVB2-2, DEB1, DC Board, Gemini C0/C1, BS01DCMA |
 
-* freedom-u540: The SiFive HiFive Unleashed board
-* beaglev-starlight-jh7100: BeagleV - Based on Starlight JH7100 SOC
-* mangopi-mq-pro: MangoPi MQ Pro - Based on Allwinner D1 SOC
+All board variants are built from a single `MACHINE=k3` target. The corresponding device trees are included in the bootfs automatically (see `conf/machine/k3.conf` for the full DTB list).
 
-Note that this layer also provides improvements and features for the
-upstream qemuriscv32 and qemuriscv64 machines.
+## Build Environment
 
-Additional beagleV notes on bringup are [here](https://github.com/riscv/meta-riscv/blob/master/docs/BeagleV.md)
-## Build Images
+Builds are performed inside a Docker container based on **Ubuntu 24.04 LTS** (x86_64).
 
-A console-only image for the 64-bit QEMU machine
-```text
-MACHINE=qemuriscv64 bitbake core-image-full-cmdline
-MACHINE=beaglev-starlight-jh7100 bitbake core-image-full-cmdline
+The following packages are installed on top of the base `ubuntu:24.04` image:
+
+```bash
+sudo apt update
+sudo apt install gawk wget git git-lfs diffstat unzip texinfo gcc g++ build-essential \
+  chrpath cpio python3 python3-pip python3-pexpect python3-git python3-jinja2 \
+  python3-subunit xz-utils zstd liblz4-tool lz4 lzop file locales curl make \
+  binutils cpp dosfstools iproute2 iputils-ping mesa-common-dev rpcsvc-proto \
+  subversion ssh sudo vim p7zip-full netcat-openbsd
+sudo locale-gen en_US.UTF-8
 ```
 
-To build an image to run on the HiFive Unleashed using Wayland run the following
+> These cover the standard [Yocto Project host packages](https://docs.yoctoproject.org/ref-manual/system-requirements.html) (Scarthgap 5.0) plus additional tools needed by K3 BSP recipes (dosfstools, mesa-common-dev, git-lfs, etc.).
 
-```text
-MACHINE=freedom-u540 bitbake core-image-weston
+## Quick Start (K3 Platform)
+
+### 1. Initialize Workspace
+
+Use the `repo` tool to initialize the source code:
+
+```bash
+mkdir riscv-yocto && cd riscv-yocto
+repo init -u https://github.com/yingjie-liu-spacemit/spacemit-yocto.git -b k3 -m tools/manifests/riscv-yocto.xml
+repo sync
+repo start work --all
 ```
 
-To build an image to run on the BeagleV using Wayland run the following
-```text
-MACHINE=beaglev-starlight-jh7100 bitbake core-image-weston
+### 2. Set Up Build Environment
+
+Run the following command to configure your environment:
+
+```bash
+. layers/meta-riscv/tools/envsetup.sh
 ```
 
-To build an image to run on the MangoPi MQ Pro (console only has been tested so far) run the following:
-```text
-MACHINE=mangopi-mq-pro bitbake core-image-base
+### 3. Build Images
+
+Select the target image based on your requirements:
+
+| Image | Description |
+|-------|-------------|
+| `core-image-weston` | Graphical desktop with Wayland/Weston compositor |
+| `core-image-minimal` | Console-only, minimal rootfs for headless use |
+
+* **For a Graphical Image (Wayland/Weston):**
+
+```bash
+MACHINE=k3 bitbake core-image-weston
 ```
 
-To build a full GUI equipped image running Plasma Mobile see the in-tree documentation [here](https://github.com/riscv/meta-riscv/blob/master/docs/Plasma-Mobile-on-Unleashed.md).
+* **For a Console-only Image:**
 
-## Running in QEMU
-
-Run the 64-bit machine in QEMU using the following command:
-
-```text
-MACHINE=qemuriscv64 runqemu nographic
+```bash
+MACHINE=k3 bitbake core-image-minimal
 ```
 
-Run the 32-bit machine in QEMU using the following command:
+Both targets produce `.wic` (SD card) and `.ext4` + Titan partition images simultaneously.
 
-```text
-MACHINE=qemuriscv32 runqemu nographic
+### 4. Default Credentials
+
+| User | Password |
+|------|----------|
+| `root` | `bianbu` |
+
+### 5. Flashing / Usage
+
+After a successful build, the image files are located in `build/tmp/deploy/images/k3/`.
+
+#### SD Card
+
+Use the `dd` command to write the `.wic` image to your SD card (replace `/dev/sdX` with your actual device identifier):
+
+```bash
+sudo dd if=core-image-minimal-k3.rootfs.wic of=/dev/sdX bs=4M conv=fsync status=progress
+sudo sync
 ```
 
-## Running on hardware
+*(Replace the filename accordingly if you built `core-image-weston`.)*
 
-### Setting up a TFTP server
+#### Titan Flashing Tool
 
-If you would like to boot the images from a TFTP server (optional) you should set your TFTP server address in your local.conf with the following line. Change ```127.0.0.1``` to the IP address of your TFTP server and copy the uImage to the server.
+Titan is SpacemiT's proprietary flashing tool for writing images via USB. The build also generates partition images compatible with Titan (bootfs.ext4, rootfs.ext4, and firmware binaries).
 
-```text
-TFTP_SERVER_IP = "127.0.0.1"
-```
+- **Titan download and usage guide**: https://spacemit.com/community/document/info?lang=zh&nodepath=tools/user_guide/flasher_user_guide.md
 
-### Running with the Microsemi Expansion board
+---
 
-To use the Microsemi expansion board with your HiFive Unleased add the following line to your local.conf. This tells the Unleashed to use a device tree with the PCIe device described:
+## Dependencies
 
-```text
-RISCV_SBI_FDT:freedom-u540 = "hifive-unleashed-a00-microsemi.dtb"
-```
-
-### Sparse Image Creation
-
-The output of the build can also be written to an SD card using bmaptool, the steps to do this are below:
-
-```text
-$ MACHINE=freedom-u540 wic create freedom-u540-opensbi -e core-image-minimal
-$ bmaptool create ./freedom-u540-opensbi-201812181337-mmcblk.direct > image.bmap
-$ sudo bmaptool copy --bmap image.bmap ./freedom-u540-opensbi-201812181337-mmcblk.direct /dev/sdX
-```
-
-### dding wic.gz
-
-The output of a ```freedom-u540```, ```beaglev-starlight-jh7100``` or ```mangopi-mq-pro```  build will be a ```<image>.wic.gz``` file. You can write this file to an sd card using:
-
-```text
-$ zcat <image>-<machine>.wic.gz | sudo dd of=/dev/sdX bs=4M iflag=fullblock oflag=direct conv=fsync status=progress
-```
-
-### Using bmaptoop to write the image
-
-Instead of dding wic.gz image ```bmaptool``` (available in most Linux distributions and/or pip) can be used for more reliable and faster flashing. You can write this file to an sd card using:
-```text
-$ sudo bmaptool copy <image>-<machine>.wic.gz /dev/sdX
-```
+* URI: [https://github.com/openembedded/openembedded-core](https://github.com/openembedded/openembedded-core)
+* URI: [https://github.com/openembedded/bitbake](https://github.com/openembedded/bitbake)
 
 ## Contributing
 
-Submit patches via GitHub pull requests, Use GitHub issues to report problems or to send comments.
+Submit patches via GitHub pull requests. Use GitHub issues to report problems or provide feedback.
 
 ## Maintainer(s)
 
-* Khem Raj `<raj.khem@gmail.com>`
+* liuyingjie `<yingjie.liu@spacemit.com>`

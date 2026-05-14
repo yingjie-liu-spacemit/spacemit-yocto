@@ -2,14 +2,14 @@
 
 <manifest>
   <remote name="openembedded" fetch="https://github.com/openembedded/" />
-  <remote name="riscv" fetch="https://github.com/riscv/" />
+  <remote name="meta-riscv" fetch="https://github.com/yingjie-liu-spacemit/" />
   <remote name="yocto" fetch="https://git.yoctoproject.org/" />
   <default remote="openembedded" revision="master" />
 
-  <project name="openembedded-core" remote="openembedded" path="layers/openembedded-core" revision="master" />
-  <project name="bitbake" remote="openembedded" path="layers/openembedded-core/bitbake" revision="master" />
-  <project name="meta-openembedded" remote="openembedded" path="layers/meta-openembedded" revision="master" />
-  <project name="meta-riscv" remote="riscv" path="layers/meta-riscv" revision="master" />
-  <project name="meta-yocto" remote="yocto" path="layers/meta-yocto" revision="master" />
+  <project name="openembedded-core" remote="openembedded" path="layers/openembedded-core" revision="58b9f90779d1227e30a7de4948b10e49fb5b5ac1" />
+  <project name="bitbake" remote="openembedded" path="layers/openembedded-core/bitbake" revision="cdd79c1768ac396a9c6577e38098da4331507f24" />
+  <project name="meta-openembedded" remote="openembedded" path="layers/meta-openembedded" revision="dfd6cf901aa530eb924ed62ad2498f8abf43fed2" />
+  <project name="spacemit-yocto" remote="meta-riscv" path="layers/meta-riscv" revision="k3" />
+  <project name="meta-yocto" remote="yocto" path="layers/meta-yocto" revision="de4abc0a175af12eacc761a2e1e60ca7fdfeaa1b" />
 
 </manifest>
