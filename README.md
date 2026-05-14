@@ -21,7 +21,7 @@ Graphical environment with Weston (Wayland) compositor, supporting simple graphi
 ## Firmware Download and Flashing
 
 - **Download**:
-  - [Latest Images & Releases](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/)
+  - [Latest Images & Releases](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/tag/K1_support_v1.0)
   
 - **Flashing Example (write to SD card, confirm target device first)**:
   ```bash

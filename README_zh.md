@@ -22,7 +22,7 @@
 
 - **下载**：
 
-  - [最新镜像](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/)
+  - [最新镜像](https://github.com/yingjie-liu-spacemit/spacemit-yocto/releases/tag/K1_support_v1.0)
 
 - **刷入示例（写入 SD 卡，操作前请确认目标设备）**：
 
