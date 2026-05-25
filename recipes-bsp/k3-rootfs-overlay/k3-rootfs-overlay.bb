@@ -1,23 +1,16 @@
-SUMMARY = "K3 Board Firmware Files (Realtek WiFi/BT)"
-DESCRIPTION = "Common firmware and image-specific configuration files for K3 boards."
-LICENSE = "CLOSED"
+SUMMARY = "K3 Board Configuration Files (Weston, Network)"
+DESCRIPTION = "Image-specific configuration files for K3 boards (Weston compositor, systemd network). WiFi/BT firmware is provided by linux-firmware subpackages."
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = "file://firmware/ \
-        file://weston \
+SRC_URI = "file://weston \
         file://network"
 
-PACKAGES =+ "${PN}-firmware ${PN}-weston ${PN}-network"
+PACKAGES =+ "${PN}-weston ${PN}-network"
 
 S = "${UNPACKDIR}"
 
 do_install() {
-    if [ -d "${S}/firmware/usr/lib/firmware" ]; then
-        install -d ${D}${nonarch_base_libdir}/firmware
-        cp -dr ${S}/firmware/usr/lib/firmware/* ${D}${nonarch_base_libdir}/firmware/
-    else
-        bbfatal "Firmware directory not found in ${S}/firmware/usr/lib/firmware."
-    fi
-
     if [ -d "${S}/weston" ]; then
         if [ -d "${S}/weston/etc" ]; then
             install -d ${D}${sysconfdir}
@@ -36,8 +29,6 @@ do_install() {
     fi
 }
 
-FILES:${PN}-firmware = "/usr/lib/firmware"
-
 FILES:${PN}-weston = " \
     ${sysconfdir}/xdg \
     ${sysconfdir}/systemd/system/weston.service.d \
@@ -51,5 +42,12 @@ FILES:${PN}-network = " \
 "
 
 RDEPENDS:${PN}-network = "systemd"
+
+# WiFi/BT firmware from linux-firmware (rtw89 driver)
+RDEPENDS:${PN} = " \
+    linux-firmware-rtl8851 \
+    linux-firmware-rtl8852 \
+    linux-firmware-rtl8922 \
+"
 
 COMPATIBLE_MACHINE = "(k3)"
