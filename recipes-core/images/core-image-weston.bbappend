@@ -11,7 +11,7 @@ EXTRA_USERS_PARAMS:k3 = "usermod -p '\$6\$sKMgaZHbRxDcYuHo\$tSd/ApNFXecZGM1owuH.
 # Additional packages for K3
 IMAGE_INSTALL:append:k3 = " \
     kernel-modules \
-    k3-rootfs-overlay-firmware \
+    k3-rootfs-overlay \
     k3-rootfs-overlay-weston \
     k3-rootfs-overlay-network \
     img-gpu-powervr \

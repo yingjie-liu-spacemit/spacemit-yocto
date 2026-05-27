@@ -50,4 +50,7 @@ RDEPENDS:${PN} = " \
     linux-firmware-rtl8922 \
 "
 
+# Allow empty main package (it only carries firmware dependencies)
+ALLOW_EMPTY:${PN} = "1"
+
 COMPATIBLE_MACHINE = "(k3)"
